@@ -1,0 +1,19 @@
+{
+  "name": "vhtml-typing-test",
+  "version": "0.1.0",
+  "description": "TypeScript type definitions for vhtml",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pastelmind/vhtml-typing-test.git"
+  },
+  "author": "pastelmind",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pastelmind/vhtml-typing-test/issues"
+  },
+  "homepage": "https://github.com/pastelmind/vhtml-typing-test#readme"
+}
