@@ -1,8 +1,8 @@
 {
-  "name": "vhtml-typing-test",
+  "name": "@pastelmind/vhtml-types",
   "version": "0.1.0",
   "description": "TypeScript type definitions for vhtml",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && npm run generate-types",
     "generate-types": "node ./src/generate-types.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pastelmind/vhtml-typing-test.git"
+    "url": "git+https://github.com/pastelmind/vhtml-types.git"
   },
   "author": "pastelmind",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pastelmind/vhtml-typing-test/issues"
+    "url": "https://github.com/pastelmind/vhtml-types/issues"
   },
-  "homepage": "https://github.com/pastelmind/vhtml-typing-test#readme",
+  "homepage": "https://github.com/pastelmind/vhtml-types#readme",
   "devDependencies": {
     "@types/node": "^10.17.49",
     "@types/react": "^17.0.0",
@@ -26,5 +26,8 @@
     "ts-morph": "^9.1.0",
     "typescript": "^3.7.5"
   },
-  "types": "types"
+  "types": "types",
+  "files": [
+    "types/index.d.ts"
+  ]
 }
