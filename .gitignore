@@ -112,3 +112,6 @@ dist
 
 # Local History for Visual Studio Code
 .history/
+
+# TypeScript build artifacts
+/src/**/*.js
