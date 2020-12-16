@@ -1,2 +1,5 @@
 # TypeScript build artifacts
 /src/**/*.js
+
+# Generated type definitions
+/types/**/*.d.ts
