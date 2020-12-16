@@ -4,7 +4,9 @@
   "description": "TypeScript type definitions for vhtml",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.build.json && npm run generate-types",
+    "generate-types": "node ./src/generate-types.js",
+    "test": "dtslint types"
   },
   "repository": {
     "type": "git",
