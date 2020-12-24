@@ -1,10 +1,16 @@
 # vhtml-types
 
+## This package is deprecated. Please use [@types/vhtml](https://www.npmjs.com/package/@types/vhtml) instead.
+
+The following content has been preserved for historical purposes.
+
+## Introduction
+
 This project provides TypeScript type definitions (`.d.ts`) for [vhtml](https://github.com/developit/vhtml). It generates type definitions for JSX by extracting and transforming interfaces from [@types/react](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react/index.d.ts).
 
 ## Installation and Usage
 
-NOTE: This type definition has been submitted to [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/50147) and is awaiting approval. The following instructions are meant to be a temporary measure.
+~~NOTE: This type definition has been submitted to [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/50147) and is awaiting approval. The following instructions are meant to be a temporary measure.~~ <ins>PR accepted!</ins>
 
 First, install vhtml and vhtml-types.
 
