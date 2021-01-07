@@ -24,9 +24,8 @@ function normalizeAttributeType(attrType: string): string {
   // string
   if (/EventHandler/i.test(attrType)) return "string";
 
-  // vhtml doesn't have a distinct node type--the serializer accepts any value.
-  // (arrays of any depth are flattened and concatenated)
-  if (attrType === "ReactNode") return "any";
+  // vhtml doesn't have a distinct node type--all components become strings.
+  if (attrType === "ReactNode") return "string";
 
   // vhtml doesn't convert style objects to string, so CSSProperties isn't
   // supported.
@@ -262,9 +261,6 @@ function generateJsxTypesForVhtml(
 
       // A functional pseudo-component returns a string as "element"
       writer.writeLine(`type Element = string;`);
-
-      // Enable strict type checking for children (TypeScript 2.3+)
-      writer.writeLine(`interface ElementChildrenAttribute { children: {}; }`);
 
       writer.writeLine(intrinsicElementsInterface.getText());
       extractedInterfaceNodes.forEach((node) => {
