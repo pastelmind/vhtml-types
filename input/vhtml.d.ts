@@ -13,9 +13,9 @@ export = vhtml;
  * @param attrs Attributes
  * @param children Child elements
  */
-declare function vhtml<T extends keyof JSX.IntrinsicElements>(
+declare function vhtml<T extends string>(
   name: T,
-  attrs?: JSX.IntrinsicElements[T] | null,
+  attrs?: HtmlElementAttr<T> | null,
   ...children: any[]
 ): string;
 
@@ -25,29 +25,33 @@ declare function vhtml<T extends keyof JSX.IntrinsicElements>(
  * @param attrs Attributes
  * @param children Child elements
  */
-declare function vhtml<Props extends VhtmlAttributes>(
-  component: (props: Props) => string,
+declare function vhtml<Props, Children extends any[]>(
+  component: (props: Props & { children: Children }) => string,
   attrs?: Props | null,
-  ...children: any[]
+  ...children: Children
 ): string;
 
 /**
- * Converts Hyperscript/JSX to a plain string.
- * @param name Element name
- * @param attrs Attributes
- * @param children Child elements
+ * @internal
+ * Attributes supported on HTML tags.
+ * This type alias allows custom tags to have any attribute, while still
+ * enforcing type-checks on known HTML attributes.
+ *
+ * Notes:
+ *  - Because TypeScript forbids unknown tag names in JSX, custom string tags
+ *    can be used only with hyperscript-style code.
+ *  - There is no need to add `{ [attr: string]: any }` to known attributes,
+ *    since TypeScript already supports arbitrary `data-*` attributes in JSX
+ *    (see "Note" in https://www.typescriptlang.org/docs/handbook/jsx.html#attribute-type-checking)
  */
-declare function vhtml(
-  name: string,
-  attrs?: (VhtmlAttributes & { [prop: string]: string }) | null,
-  ...children: any[]
-): string;
-
-interface VhtmlAttributes {
-  children?: any[];
+type HtmlElementAttr<
+  Tag extends string
+> = (Tag extends keyof JSX.IntrinsicElements
+  ? JSX.IntrinsicElements[Tag]
+  : {}) & {
   dangerouslySetInnerHTML?: { __html: string };
   [attr: string]: any;
-}
+};
 
 /**
  * @internal
