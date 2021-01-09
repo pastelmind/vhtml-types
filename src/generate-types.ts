@@ -24,8 +24,9 @@ function normalizeAttributeType(attrType: string): string {
   // string
   if (/EventHandler/i.test(attrType)) return "string";
 
-  // vhtml doesn't have a distinct node type--all components become strings.
-  if (attrType === "ReactNode") return "string";
+  // vhtml does not have a distinct node type. If a component is an HTML tag,
+  // all children are converted to strings and concatenated.
+  if (attrType === "ReactNode") return "any";
 
   // vhtml doesn't convert style objects to string, so CSSProperties isn't
   // supported.
@@ -207,7 +208,17 @@ function generateJsxTypesForVhtml(
   const inputSourceFile = project.addSourceFileAtPath(inputTypesFile);
   const reactSourceFile = project.addSourceFileAtPath(reactTypesFile);
 
-  const extractedInterfaceNodes: Node[] = [];
+  // Since extracting interfaces from reactSourceFile takes very long, let's do
+  // this first so that we can fail fast if the input source file doesn't have
+  // `global.JSX`.
+  const inputJsxNamespace = inputSourceFile
+    .getNamespaceOrThrow("global")
+    .getNamespaceOrThrow("JSX");
+
+  const extractedInterfaceNodes: (
+    | InterfaceDeclaration
+    | TypeAliasDeclaration
+  )[] = [];
 
   // First pass:
   // Extract the IntrinsicElements interface and a set of additional type names
@@ -250,40 +261,36 @@ function generateJsxTypesForVhtml(
     }
   }
 
-  console.log(`\nWriting to ${outputTypesFile}...`);
+  console.log();
+  console.log(`Buildng type definition file...`);
+
+  inputJsxNamespace.addInterface(intrinsicElementsInterface.getStructure());
+  extractedInterfaceNodes.forEach((node) => {
+    if (Node.isInterfaceDeclaration(node)) {
+      // If the interface has no properties, convert it to a type alias, using
+      // an intersection of all of its extends expressions.
+      // (tslint: no-empty-interface)
+      if (node.getProperties().length === 0) {
+        inputJsxNamespace.addTypeAlias({
+          name: node.getName(),
+          type: node
+            .getExtends()
+            .map((e) => `(${e.getText()})`)
+            .join("&"),
+        });
+      } else {
+        inputJsxNamespace.addStatements(node.getText());
+      }
+    } else {
+      inputJsxNamespace.addStatements(node.getText());
+    }
+  });
+
+  console.log(`Writing to ${outputTypesFile}...`);
 
   const outputSourceFile = project.createSourceFile(
     outputTypesFile,
-    (writer) => {
-      writer.writeLine(inputSourceFile.getFullText());
-
-      writer.writeLine(`declare global { namespace JSX {`);
-
-      // A functional pseudo-component returns a string as "element"
-      writer.writeLine(`type Element = string;`);
-
-      writer.writeLine(intrinsicElementsInterface.getText());
-      extractedInterfaceNodes.forEach((node) => {
-        // If the interface has no properties, convert it to a type alias, using
-        // an intersection of all of its extends expressions.
-        // (tslint: no-empty-interface)
-        if (
-          Node.isInterfaceDeclaration(node) &&
-          node.getProperties().length === 0
-        ) {
-          writer.writeLine(
-            `type ${node.getName()} = ${node
-              .getExtends()
-              .map((e) => `(${e.getText()})`)
-              .join("&")};`
-          );
-        } else {
-          writer.writeLine(node.getText());
-        }
-      });
-
-      writer.writeLine(`}}`);
-    },
+    inputSourceFile.getFullText(),
     { overwrite: true }
   );
   outputSourceFile.formatText();
