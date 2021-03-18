@@ -1,5 +1,8 @@
 // TypeScript config for building scripts inside src/
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true
+  },
   "include": ["src"]
 }
