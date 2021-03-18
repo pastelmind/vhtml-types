@@ -20,7 +20,7 @@
   "homepage": "https://github.com/pastelmind/vhtml-types#readme",
   "devDependencies": {
     "@types/node": "^12.20.6",
-    "@types/react": "^17.0.0",
+    "@types/react": "^17.0.3",
     "dtslint": "^4.0.7",
     "prettier": "^2.2.1",
     "ts-morph": "^10.0.1",
