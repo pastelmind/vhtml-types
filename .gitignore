@@ -115,6 +115,7 @@ dist
 
 # TypeScript build artifacts
 /src/**/*.js
+/src/**/*.map
 
 # Generated type definitions
 /types/**/*.d.ts
