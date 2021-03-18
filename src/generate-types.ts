@@ -210,9 +210,9 @@ function generateJsxTypesForVhtml(
 
   // Since extracting interfaces from reactSourceFile takes very long, let's do
   // this first so that we can fail fast if the input source file doesn't have
-  // `global.JSX`.
+  // `vhtml.JSX`.
   const inputJsxNamespace = inputSourceFile
-    .getModuleOrThrow("global")
+    .getModuleOrThrow("vhtml")
     .getModuleOrThrow("JSX");
 
   const extractedInterfaceNodes: (

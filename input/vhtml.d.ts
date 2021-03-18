@@ -46,8 +46,8 @@ declare function vhtml<Props, Children extends any[]>(
  */
 type HtmlElementAttr<
   Tag extends string
-> = (Tag extends keyof JSX.IntrinsicElements
-  ? JSX.IntrinsicElements[Tag]
+> = (Tag extends keyof vhtml.JSX.IntrinsicElements
+  ? vhtml.JSX.IntrinsicElements[Tag]
   : {}) & {
   dangerouslySetInnerHTML?: { __html: string };
   [attr: string]: any;
@@ -99,7 +99,7 @@ type ComponentPropTransform<TComp, TProps> = SafeEmptyType<
     ? never
     : {});
 
-declare global {
+declare namespace vhtml {
   namespace JSX {
     type Element = string;
 
