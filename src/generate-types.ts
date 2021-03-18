@@ -156,8 +156,8 @@ function extractIntrinsicElementsInterface(
   sourceFile: SourceFile
 ): [InterfaceDeclaration, Set<string>] {
   const intrinsicElementsInterface = sourceFile
-    .getNamespaceOrThrow("global")
-    .getNamespaceOrThrow("JSX")
+    .getModuleOrThrow("global")
+    .getModuleOrThrow("JSX")
     .getInterfaceOrThrow("IntrinsicElements");
 
   const propertyInterfaceNames = new Set<string>();
@@ -212,8 +212,8 @@ function generateJsxTypesForVhtml(
   // this first so that we can fail fast if the input source file doesn't have
   // `global.JSX`.
   const inputJsxNamespace = inputSourceFile
-    .getNamespaceOrThrow("global")
-    .getNamespaceOrThrow("JSX");
+    .getModuleOrThrow("global")
+    .getModuleOrThrow("JSX");
 
   const extractedInterfaceNodes: (
     | InterfaceDeclaration
