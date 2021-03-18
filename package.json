@@ -5,7 +5,7 @@
   "main": "",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && npm run generate-types",
-    "generate-types": "node ./src/generate-types.js",
+    "generate-types": "node --enable-source-maps ./src/generate-types.js",
     "test": "dtslint types"
   },
   "repository": {
@@ -29,5 +29,8 @@
   "types": "types",
   "files": [
     "types/index.d.ts"
-  ]
+  ],
+  "engines": {
+    "node": ">=12.12"
+  }
 }
